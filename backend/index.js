@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const app = express();
 const PORT = process.env.BACKEND_PORT;
+const cors = require("cors");
 
 
 // routes
@@ -12,6 +13,12 @@ const { connectDB } = require("./connection")
 const DB_URL = process.env.DB_URL;
 connectDB(DB_URL)
 
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
 // middleware resources
 const {
     checkAuth,

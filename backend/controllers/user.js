@@ -84,7 +84,10 @@ async function signup(req, res) {
             email,
             password
         })
+
+        const token = setUser(user);
         return res.status(200).json({
+            token,
             status: "success",
             msg: "User Registered Successfully",
             user: {
