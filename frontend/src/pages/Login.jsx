@@ -10,8 +10,8 @@ const Login = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        email: "",
-        password: "",
+        identifier: "",
+        password: ""
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +23,7 @@ const Login = () => {
         e.preventDefault();
         setError("")
 
-        if (!formData.email || !formData.password) {
+        if (!formData.identifier || !formData.password) {
             setError("Please Fill all the fields!")
             return;
         }
@@ -42,7 +42,7 @@ const Login = () => {
             navigate("/dashboard")
         } catch (error) {
             setError(
-                error.response?.data?.message || "Someting Went Wrong. Try again!"
+                error.response?.data?.msg || "Someting Went Wrong. Try again!"
             )
         } finally {
             setLoading(false)
@@ -62,12 +62,12 @@ const Login = () => {
                 )}
 
                 <input
-                    type="email"
+                    type="text"
                     className="border border-gray-300 rounded-md p-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    placeholder="Email"
-                    value={formData.email}
+                    placeholder="Username or Email"
+                    value={formData.identifier}
                     onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
+                        setFormData({ ...formData, identifier: e.target.value })
                     }
                 />
 
@@ -100,6 +100,7 @@ const Login = () => {
 
                 <button
                     type="submit"
+                    disabled={loading}
                     className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded transition"
                 >
                     {/* Login */}

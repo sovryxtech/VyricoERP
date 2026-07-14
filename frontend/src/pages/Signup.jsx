@@ -28,15 +28,18 @@ const Signup = () => {
 
         if (
             !formData.name ||
+            !formData.username ||
             !formData.email ||
             !formData.password ||
             !formData.confirmPassword
         ) {
             setError("Please fill all fields")
+            return;
         }
 
         if (formData.password !== formData.confirmPassword) {
             setError("Passwords donot match")
+            return;
         }
 
 
@@ -46,7 +49,7 @@ const Signup = () => {
 
             const response = await signup({
                 name: formData.name,
-                userName: formData.username,
+                username: formData.username,
                 email: formData.email,
                 password: formData.password
             });
@@ -60,7 +63,7 @@ const Signup = () => {
             navigate("/dashboard")
         } catch (err) {
             setError(
-                err.response?.response?.message || "Somewhting went wrong. Try again"
+                err.response?.data?.msg || "Somewhting went wrong. Try again"
             )
         } finally {
             setLoading(false)

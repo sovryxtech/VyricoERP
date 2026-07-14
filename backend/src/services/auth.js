@@ -6,10 +6,17 @@ function setUser(userInfo) {
     // convert the payload into the required signatured token
     return jwt.sign(
         {
-            _id: userInfo._id,
-            email: userInfo.email
+            id: userInfo.id,
+            email: userInfo.email,
+            name:userInfo.name,
+            username:userInfo.username,
+            avatar_url:userInfo.avatar_url,
+            role:userInfo.role
         },
-        secret_key
+        secret_key,
+        {
+            expiresIn:"10d"
+        }
     );
 }
 
