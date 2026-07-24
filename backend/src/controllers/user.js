@@ -3,6 +3,7 @@ const { setUser } = require("../services/auth")
 const pool = require("../config/db");
 
 async function login(req, res) {
+
     try {
         // identifier = email || username
         const { identifier, password } = req.body;

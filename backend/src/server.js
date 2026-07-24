@@ -1,59 +1,28 @@
-// require("dotenv").config()
-// const express = require("express")
-// const app = express();
-// const PORT = process.env.BACKEND_PORT;
-// const cors = require("cors");
-
-
-// // routes
-// const userRoute = require("./routes/user")
-
-// // db resources
-// // const { connectDB } = require("./connection")
-// // const DB_URL = process.env.DB_URL;
-// // connectDB(DB_URL)
-
-// app.use(
-//     cors({
-//         origin: "http://localhost:5173",
-//         credentials: true,
-//     })
-// );
-// // middleware resources
-// const {
-//     checkAuth,
-//     restrictToLoggedInUserOnly
-// } = require("./middlewares/user")
-
-// app.use(express.json())
-// app.use(express.urlencoded({ extended: true }))
-// app.use(checkAuth)
-
-
-// app.use("/user", userRoute)
-
-// app.listen(PORT, () => {
-//     console.log(`sserver started at port ${PORT}`)
-// })
-
-
 require("dotenv").config();
-
 const express = require("express");
+const PORT = process.env.BACKEND_PORT;
 const cors = require("cors");
-const pool = require("./config/db")
-
 
 
 const app = express();
 
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true
+    })
+);
 app.use(express.json());
 
-const userRoute = require("./routes/user");
+const userRoute = require("./routes/user"); // /user
+const categoryRoute = require("./modules/categories/category.routes") 
+const productRoute = require("./modules/products/product.routes")
 
 app.use("/user", userRoute);
+app.use("/category", categoryRoute);
+app.use("/product", productRoute)
 
-app.listen(process.env.BACKEND_PORT, () => {
-    console.log("Server Started");
+
+app.listen(PORT, () => {
+    console.log(`Server Started at port ${PORT}`);
 });

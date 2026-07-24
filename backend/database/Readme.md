@@ -109,3 +109,14 @@ database/
 
 - **migrations/** – Database version history.
 - **backups/** – Local database backup files (not committed to Git).
+
+// schema
+```bash
+psql -U postgres -d business_erp -f database/schema.sql
+```
+
+// seed
+```bash
+psql -U postgres -d business_erp -f database/seed.sql
+```
+
