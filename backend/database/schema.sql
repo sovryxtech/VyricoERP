@@ -70,3 +70,139 @@ CREATE TABLE products (
         NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE suppliers (
+    id SERIAL PRIMARY KEY,
+
+    company_name VARCHAR(150) NOT NULL,
+
+    contact_person VARCHAR(100),
+
+    email VARCHAR(100) UNIQUE,
+
+    phone VARCHAR(20) UNIQUE,
+
+    address TEXT,
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE customers(
+    id SERIAL PRIMARY KEY,
+
+    full_name VARCHAR(150) NOT NULL,
+
+    email VARCHAR(100) UNIQUE,
+
+    phone VARCHAR(20) UNIQUE,
+
+    address TEXT,
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE purchases (
+    id SERIAL PRIMARY KEY,
+
+    supplier_id INTEGER NOT NULL
+        REFERENCES suppliers(id)
+        ON DELETE RESTRICT,
+
+    invoice_number VARCHAR(50) UNIQUE NOT NULL,
+
+    purchase_date DATE NOT NULL DEFAULT CURRENT_DATE,
+
+    total_amount NUMERIC(12,2)
+        NOT NULL DEFAULT 0
+        CHECK (total_amount >= 0),
+
+    created_at TIMESTAMP
+        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP
+        NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE purchase_items (
+    id SERIAL PRIMARY KEY,
+
+    purchase_id INTEGER NOT NULL
+        REFERENCES purchases(id)
+        ON DELETE CASCADE,
+
+    product_id INTEGER NOT NULL
+        REFERENCES products(id)
+        ON DELETE RESTRICT,
+
+    quantity INTEGER
+        NOT NULL
+        CHECK (quantity > 0),
+
+    purchase_price NUMERIC(12,2)
+        NOT NULL
+        CHECK (purchase_price >= 0),
+
+    subtotal NUMERIC(12,2)
+        NOT NULL
+        CHECK (subtotal >= 0)
+);
+
+CREATE TABLE sales (
+    id SERIAL PRIMARY KEY,
+
+    customer_id INTEGER NOT NULL
+        REFERENCES customers(id)
+        ON DELETE RESTRICT,
+
+    invoice_number VARCHAR(100)
+        NOT NULL UNIQUE,
+
+    sale_date DATE
+        NOT NULL,
+
+    total_amount NUMERIC(12,2)
+        NOT NULL DEFAULT 0
+        CHECK (total_amount >= 0),
+
+    created_at TIMESTAMP
+        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP
+        NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE sale_items (
+    id SERIAL PRIMARY KEY,
+
+    sale_id INTEGER NOT NULL
+        REFERENCES sales(id)
+        ON DELETE CASCADE,
+
+    product_id INTEGER NOT NULL
+        REFERENCES products(id)
+        ON DELETE RESTRICT,
+
+    quantity INTEGER
+        NOT NULL
+        CHECK (quantity > 0),
+
+    selling_price NUMERIC(12,2)
+        NOT NULL
+        CHECK (selling_price >= 0),
+
+    subtotal NUMERIC(12,2)
+        NOT NULL
+        CHECK (subtotal >= 0)
+);
+
+
+

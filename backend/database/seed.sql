@@ -66,7 +66,6 @@ VALUES (
         'Sports equipment and accessories'
     );
 
-
 -- |products| Table Insertions
 INSERT INTO
     products (
@@ -200,3 +199,195 @@ VALUES (
         'https://example.com/images/football.jpg'
     );
 
+INSERT INTO
+    suppliers (
+        company_name,
+        contact_person,
+        email,
+        phone,
+        address
+    )
+VALUES (
+        'Dell India',
+        'Rahul Sharma',
+        'sales@dell.in',
+        '9876543210',
+        'Bengaluru, Karnataka'
+    ),
+    (
+        'HP India',
+        'Priya Singh',
+        'contact@hp.in',
+        '9876543211',
+        'Chennai, Tamil Nadu'
+    ),
+    (
+        'Logitech India',
+        'Amit Kumar',
+        'support@logitech.in',
+        '9876543212',
+        'Mumbai, Maharashtra'
+    ),
+    (
+        'Samsung India',
+        'Neha Verma',
+        'business@samsung.in',
+        '9876543213',
+        'Noida, Uttar Pradesh'
+    ),
+    (
+        'Lenovo India',
+        'Vikram Patel',
+        'sales@lenovo.in',
+        '9876543214',
+        'Bengaluru, Karnataka'
+    ),
+    (
+        'Asus India',
+        'Rohit Gupta',
+        'sales@asus.in',
+        '9876543215',
+        'New Delhi'
+    ),
+    (
+        'Acer India',
+        'Anjali Mehta',
+        'support@acer.in',
+        '9876543216',
+        'Hyderabad, Telangana'
+    ),
+    (
+        'Canon India',
+        'Suresh Reddy',
+        'business@canon.in',
+        '9876543217',
+        'Gurugram, Haryana'
+    );
+
+INSERT INTO
+    customers (
+        full_name,
+        email,
+        phone,
+        address
+    )
+VALUES (
+        'Aarav Sharma',
+        'aarav.sharma@example.com',
+        '9876500001',
+        'Bengaluru, Karnataka'
+    ),
+    (
+        'Priya Verma',
+        'priya.verma@example.com',
+        '9876500002',
+        'Chennai, Tamil Nadu'
+    ),
+    (
+        'Rohan Gupta',
+        'rohan.gupta@example.com',
+        '9876500003',
+        'Hyderabad, Telangana'
+    ),
+    (
+        'Sneha Patel',
+        'sneha.patel@example.com',
+        '9876500004',
+        'Mumbai, Maharashtra'
+    ),
+    (
+        'Aditya Singh',
+        'aditya.singh@example.com',
+        '9876500005',
+        'New Delhi'
+    ),
+    (
+        'Neha Kapoor',
+        'neha.kapoor@example.com',
+        '9876500006',
+        'Pune, Maharashtra'
+    ),
+    (
+        'Vikram Mehta',
+        'vikram.mehta@example.com',
+        '9876500007',
+        'Ahmedabad, Gujarat'
+    ),
+    (
+        'Ananya Rao',
+        'ananya.rao@example.com',
+        '9876500008',
+        'Kochi, Kerala'
+    );
+
+INSERT INTO
+    purchases (
+        supplier_id,
+        invoice_number,
+        purchase_date,
+        total_amount
+    )
+VALUES (
+        4,
+        'PUR-1001',
+        CURRENT_DATE,
+        65000.00
+    ),
+    (
+        2,
+        'PUR-1002',
+        CURRENT_DATE,
+        32000.00
+    ),
+    (
+        6,
+        'PUR-1003',
+        CURRENT_DATE,
+        18500.00
+    );
+
+INSERT INTO
+    purchase_items (
+        purchase_id,
+        product_id,
+        quantity,
+        purchase_price,
+        subtotal
+    )
+VALUES
+    -- purchase 1
+    (7, 3, 10, 1200.00, 12000.00),
+    (7, 2, 5, 3500.00, 17500.00),
+    (7, 4, 20, 1775.00, 35500.00);
+
+INSERT INTO
+    sales (
+        customer_id,
+        invoice_number,
+        sale_date,
+        total_amount
+    )
+VALUES (
+        1,
+        'SAL-1001',
+        '2026-08-01',
+        9600.00
+    ),
+    (
+        2,
+        'SAL-1002',
+        '2026-08-02',
+        6500.00
+    );
+
+INSERT INTO
+    sale_items (
+        sale_id,
+        product_id,
+        quantity,
+        selling_price,
+        subtotal
+    )
+VALUES (1, 3, 4, 1500.00, 6000.00),
+    (1, 2, 2, 1800.00, 3600.00),
+    (2, 3, 5, 1300.00, 6500.00);
