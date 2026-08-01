@@ -280,6 +280,16 @@ async function deleteProduct(req, res) {
             msg: "Product deleted successfully"
         });
     } catch (error) {
+
+        console.error(error);
+
+        if (error.code === "23503") {
+            return res.status(400).json({
+                status: "error",
+                msg: "Cannot delete this product because it has sales or purchase records."
+            });
+        }
+
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error"

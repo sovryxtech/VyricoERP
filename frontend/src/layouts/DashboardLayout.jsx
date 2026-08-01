@@ -77,6 +77,8 @@ const DashboardLayout = () => {
 
                 <main className="flex-1 p-8 overflow-auto">
                     <Outlet context={{ user }} />
+                    
+                    
                 </main>
             </div>
             {/* Dashboard Layout */}

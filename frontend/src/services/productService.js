@@ -1,24 +1,35 @@
-// productService.js
-// /products
+import api from "../api/axios";
 
-import api from "../api/axios"
+// GET /products
+export const getProducts = async (search = "") => {
+    const response = await api.get("/products", {
+        params: {
+            search,
+        },
+    });
+    return response.data;
+};
 
-export const getProducts = () =>
-    api.get("/products");
+// GET /products/:id
+export const getProduct = async (id) => {
+    const response = await api.get(`/products/${id}`);
+    return response.data;
+};
 
-export const getProduct = (id) =>
-    api.get(`/products/${id}`);
+// POST /products
+export const createProduct = async (data) => {
+    const response = await api.post("/products", data);
+    return response.data;
+};
 
-export const createProduct = (data) =>
-    api.post("/products", data);
+// PATCH /products/:id
+export const updateProduct = async (id, data) => {
+    const response = await api.patch(`/products/${id}`, data);
+    return response.data;
+};
 
-export const updateProduct = (id, data) =>
-    api.patch(`/products/${id}`, data);
-
-export const deleteProduct = (id) =>
-    api.delete(`/products/${id}`);
-
-
-
-
-
+// DELETE /products/:id
+export const deleteProduct = async (id) => {
+    const response = await api.delete(`/products/${id}`);
+    return response.data;
+};

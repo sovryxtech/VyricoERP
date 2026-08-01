@@ -30,7 +30,7 @@ import Signup from "../pages/Signup";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 import Dashboard from "../pages/Dashboard";
-// import Products from "../pages/Products";
+import Products from "../pages/Products";
 // import Categories from "../pages/Categories";
 // import Suppliers from "../pages/Suppliers";
 // import Customers from "../pages/Customers";
@@ -49,36 +49,36 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <DashboardLayout />,
-        // children: [
-        //     {
-        //         path: "dashboard",
-        //         element: <Dashboard />,
-        //     },
-        //     {
-        //         path: "products",
-        //         element: <Products />,
-        //     },
-        //     {
-        //         path: "categories",
-        //         element: <Categories />,
-        //     },
-        //     {
-        //         path: "suppliers",
-        //         element: <Suppliers />,
-        //     },
-        //     {
-        //         path: "customers",
-        //         element: <Customers />,
-        //     },
-        //     {
-        //         path: "purchases",
-        //         element: <Purchases />,
-        //     },
-        //     {
-        //         path: "sales",
-        //         element: <Sales />,
-        //     },
-        // ],
+        children: [
+            {
+                path: "dashboard",
+                element: <Dashboard />,
+            },
+            {
+                path: "products",
+                element: <Products />,
+            },
+            // {
+            //     path: "categories",
+            //     element: <Categories />,
+            // },
+            // {
+            //     path: "suppliers",
+            //     element: <Suppliers />,
+            // },
+            // {
+            //     path: "customers",
+            //     element: <Customers />,
+            // },
+            // {
+            //     path: "purchases",
+            //     element: <Purchases />,
+            // },
+            // {
+            //     path: "sales",
+            //     element: <Sales />,
+            // },
+        ],
     },
 ]);
 

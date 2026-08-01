@@ -1,25 +1,37 @@
-const StatCard = ({ title, value }) => {
-
+const StatCard = ({
+    title,
+    value,
+    icon: Icon,
+}) => {
     return (
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-all duration-200">
 
-        <div className="bg-white rounded-xl shadow p-6">
+            <div className="flex items-center justify-between">
 
-            <h2 className="text-gray-500">
+                <div>
 
-                {title}
+                    <p className="text-sm font-medium text-gray-500">
+                        {title}
+                    </p>
 
-            </h2>
+                    <h2 className="mt-3 text-3xl font-bold text-gray-900">
+                        {value ?? 0}
+                    </h2>
 
-            <h1 className="text-4xl font-bold mt-2">
+                </div>
 
-                {value}
+                {Icon && (
+                    <div className="h-14 w-14 rounded-xl bg-blue-100 flex items-center justify-center">
 
-            </h1>
+                        <Icon className="text-2xl text-blue-600" />
+
+                    </div>
+                )}
+
+            </div>
 
         </div>
-
     );
-
 };
 
 export default StatCard;

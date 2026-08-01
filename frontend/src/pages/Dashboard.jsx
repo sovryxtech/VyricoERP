@@ -120,45 +120,151 @@
 // };
 
 // export default Dashboard;
-
-
-import { useOutletContext } from "react-router";
+import { useEffect, useState } from "react";
 
 import StatCard from "../components/Dashboard/StatCard";
-import RecentActivity from "../components/Dashboard/RecentActivity";
+import RecentSales from "../components/Dashboard/RecentSales";
+import RecentPurchases from "../components/Dashboard/RecentPurchases";
+import LowStock from "../components/Dashboard/LowStock";
+
+import {
+    getDashboardStats,
+    getRecentSales,
+    getRecentPurchases,
+    getLowStockProducts
+} from "../services/dashboardService";
 
 const Dashboard = () => {
-    const { user } = useOutletContext();
+    const [stats, setStats] = useState({});
+    const [recentSales, setRecentSales] = useState([]);
+    const [recentPurchases, setRecentPurchases] = useState([]);
+    const [lowStock, setLowStock] = useState([]);
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        fetchDashboard();
+    }, []);
+
+    const fetchDashboard = async () => {
+        try {
+            setLoading(true);
+
+            const [
+                statsResponse,
+                salesResponse,
+                purchasesResponse,
+                lowStockResponse
+            ] = await Promise.all([
+                getDashboardStats(),
+                getRecentSales(),
+                getRecentPurchases(),
+                getLowStockProducts()
+            ]);
+
+            setStats(statsResponse.data);
+            setRecentSales(salesResponse.data);
+            setRecentPurchases(purchasesResponse.data);
+            setLowStock(lowStockResponse.data);
+
+        } catch (error) {
+            console.error(error);
+            setError(
+                error.response?.data?.msg || "Failed to load dashboard"
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <h2 className="text-xl font-semibold">
+                    Loading Dashboard...
+                </h2>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <h2 className="text-red-500 text-lg">
+                    {error}
+                </h2>
+            </div>
+        );
+    }
 
     return (
-        <>
-            <div className="mb-6">
-                
+        <div className="space-y-8">
+
+            <div>
                 <h1 className="text-3xl font-bold">
-                    Welcome, {user?.name} 👋
+                    Dashboard
                 </h1>
 
                 <p className="text-gray-500">
-                    {user?.email}
+                    Overview of your business.
                 </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
-                <StatCard title="Products" value="0" />
+            {/* Statistics */}
 
-                <StatCard title="Categories" value="0" />
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
-                <StatCard title="Suppliers" value="0" />
+                <StatCard
+                    title="Products"
+                    value={stats.products}
+                />
 
-                <StatCard title="Customers" value="0" />
+                <StatCard
+                    title="Categories"
+                    value={stats.categories}
+                />
 
-                <StatCard title="Purchases" value="0" />
+                <StatCard
+                    title="Suppliers"
+                    value={stats.suppliers}
+                />
 
-                <StatCard title="Sales" value="0" />
+                <StatCard
+                    title="Customers"
+                    value={stats.customers}
+                />
+
+                <StatCard
+                    title="Purchases"
+                    value={stats.purchases}
+                />
+
+                <StatCard
+                    title="Sales"
+                    value={stats.sales}
+                />
+
+                <StatCard
+                    title="Low Stock"
+                    value={stats.low_stock}
+                />
+
             </div>
 
-            <RecentActivity />
-        </>
+            {/* Recent Sales */}
+
+            <RecentSales sales={recentSales} />
+
+            {/* Recent Purchases */}
+
+            <RecentPurchases purchases={recentPurchases} />
+
+            {/* Low Stock */}
+
+            <LowStock products={lowStock} />
+
+        </div>
     );
 };
 
