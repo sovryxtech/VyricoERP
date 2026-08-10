@@ -1,7 +1,7 @@
-import ProductRow from "./ProductRow";
+import SupplierRow from "./SupplierRow";
 
-const ProductTable = ({
-    products,
+const SupplierTable = ({
+    suppliers,
     onEdit,
     onDelete,
 }) => {
@@ -18,13 +18,11 @@ const ProductTable = ({
 
                         <tr>
 
-                            <th className="text-left p-3">SKU</th>
-                            <th className="text-left p-3">Product</th>
-                            <th className="text-left p-3">Category</th>
-                            <th className="text-left p-3">Purchase</th>
-                            <th className="text-left p-3">Selling</th>
-                            <th className="text-left p-3">Stock</th>
-                            <th className="text-left p-3">Status</th>
+                            <th className="text-left p-3">Company</th>
+                            <th className="text-left p-3">Contact Person</th>
+                            <th className="text-left p-3">Email</th>
+                            <th className="text-left p-3">Phone</th>
+                            <th className="text-left p-3">Address</th>
                             <th className="text-left p-3">Actions</th>
 
                         </tr>
@@ -33,26 +31,26 @@ const ProductTable = ({
 
                     <tbody>
 
-                        {products.length === 0 ? (
+                        {suppliers.length === 0 ? (
 
                             <tr>
 
                                 <td
-                                    colSpan={8}
+                                    colSpan={6}
                                     className="text-center p-8 text-gray-500"
                                 >
-                                    No Products Found
+                                    No Suppliers Found
                                 </td>
 
                             </tr>
 
                         ) : (
 
-                            products.map((product) => (
+                            suppliers.map((supplier) => (
 
-                                <ProductRow
-                                    key={product.id}
-                                    product={product}
+                                <SupplierRow
+                                    key={supplier.id}
+                                    supplier={supplier}
                                     onEdit={onEdit}
                                     onDelete={onDelete}
                                 />
@@ -73,4 +71,4 @@ const ProductTable = ({
 
 };
 
-export default ProductTable;
+export default SupplierTable;

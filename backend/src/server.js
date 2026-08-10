@@ -26,9 +26,9 @@ const dashboardRoute = require("./modules/dashboard/dashboard.routes")
 app.use("/user", userRoute);
 app.use("/category", categoryRoute);
 app.use("/products", productRoute)
-app.use("/customer", customerRoute)
-app.use("/supplier", supplierRoute)
-app.use("/purchase", purchaseRoute)
+app.use("/customers", customerRoute)
+app.use("/suppliers", supplierRoute)
+app.use("/purchases", purchaseRoute)
 app.use("/sales", salesRoute);
 app.use("/dashboard", dashboardRoute);
 

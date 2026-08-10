@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { getProducts } from "../services/productService";
-import { deleteProduct } from "../services/productService";
+import {
+  getProducts,
+  deleteProduct,
+} from "../services/productService";
 
 import ProductToolbar from "../components/Products/ProductToolbar";
 import ProductTable from "../components/Products/ProductTable";
 import ProductModal from "../components/Products/ProductModal";
+import ConfirmModal from "../components/Common/ConfirmModal";
 
 const Products = () => {
 
@@ -15,17 +18,18 @@ const Products = () => {
 
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
-
   const [loading, setLoading] = useState(true);
 
-  // Modal
+  // Add / Edit Modal
 
   const [showModal, setShowModal] = useState(false);
-
-  // null = Add Product
-  // product object = Edit Product
-
   const [editingProduct, setEditingProduct] = useState(null);
+
+  // Delete Modal
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   // =========================
   // Fetch Products
@@ -53,28 +57,38 @@ const Products = () => {
 
   };
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this product?"
-    );
+  // =========================
+  // Delete Product
+  // =========================
 
-    if (!confirmed) return;
+  const handleDelete = async () => {
 
     try {
-      await deleteProduct(id);
 
-      // Refresh table
+      setDeleting(true);
+
+      await deleteProduct(selectedProduct.id);
+
       fetchProducts(search);
 
-      alert("Product deleted successfully.");
+      setDeleteModalOpen(false);
+      setSelectedProduct(null);
+
     } catch (error) {
+
       console.error(error);
 
       alert(
         error.response?.data?.msg ||
         "Failed to delete product."
       );
+
+    } finally {
+
+      setDeleting(false);
+
     }
+
   };
 
   // =========================
@@ -94,7 +108,7 @@ const Products = () => {
   }, [search]);
 
   // =========================
-  // Open Add Modal
+  // Add Product
   // =========================
 
   const handleAdd = () => {
@@ -106,7 +120,7 @@ const Products = () => {
   };
 
   // =========================
-  // Open Edit Modal
+  // Edit Product
   // =========================
 
   const handleEdit = (product) => {
@@ -130,7 +144,7 @@ const Products = () => {
   };
 
   // =========================
-  // Success (Add / Update)
+  // Add / Update Success
   // =========================
 
   const handleSuccess = () => {
@@ -149,10 +163,12 @@ const Products = () => {
 
     return (
 
-      <div className="text-center py-10">
+      <div className="flex justify-center items-center py-20">
 
         <h2 className="text-xl font-semibold">
+
           Loading Products...
+
         </h2>
 
       </div>
@@ -199,14 +215,17 @@ const Products = () => {
 
       <ProductTable
         products={products}
-        onDelete={handleDelete}
-        onEdit={(product) => {
-          setEditingProduct(product);
-          setShowModal(true);
+        onEdit={handleEdit}
+        onDelete={(product) => {
+
+          setSelectedProduct(product);
+
+          setDeleteModalOpen(true);
+
         }}
       />
 
-      {/* Modal */}
+      {/* Add / Edit Modal */}
 
       {showModal && (
 
@@ -217,6 +236,25 @@ const Products = () => {
         />
 
       )}
+
+      {/* Delete Confirmation */}
+
+      <ConfirmModal
+        open={deleteModalOpen}
+        title="Delete Product"
+        message={`Are you sure you want to delete "${selectedProduct?.name}"?`}
+        confirmText="Delete"
+        confirmColor="red"
+        loading={deleting}
+        onConfirm={handleDelete}
+        onCancel={() => {
+
+          setDeleteModalOpen(false);
+
+          setSelectedProduct(null);
+
+        }}
+      />
 
     </div>
 

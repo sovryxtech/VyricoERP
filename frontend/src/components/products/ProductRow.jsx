@@ -1,121 +1,55 @@
-import {
-    deleteProduct,
-} from "../../services/productService";
-
 const ProductRow = ({
     product,
     onEdit,
     onDelete,
 }) => {
 
-    const handleDelete = async () => {
-
-        const confirmDelete = window.confirm(
-            `Delete "${product.name}"?`
-        );
-
-        if (!confirmDelete) return;
-
-        try {
-
-            await deleteProduct(product.id);
-
-            window.location.reload();
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("Failed to delete product.");
-
-        }
-
-    };
-
     return (
 
         <tr className="border-b hover:bg-gray-50">
 
             <td className="p-3">
-
                 {product.sku}
-
             </td>
 
             <td className="p-3">
-
                 <div>
-
                     <h3 className="font-semibold">
-
                         {product.name}
-
                     </h3>
 
                     <p className="text-sm text-gray-500">
-
                         {product.description}
-
                     </p>
-
                 </div>
-
             </td>
 
             <td className="p-3">
-
                 {product.category}
-
             </td>
 
             <td className="p-3">
-
                 ₹ {product.purchase_price}
-
             </td>
 
             <td className="p-3">
-
                 ₹ {product.selling_price}
-
             </td>
 
             <td className="p-3">
-
                 {product.stock_quantity}
-
             </td>
 
             <td className="p-3">
-
                 <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${product.is_active
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
                         }`}
                 >
                     {product.is_active ? "Active" : "Inactive"}
                 </span>
-
             </td>
-
-            {/* <td className="p-3">
-
-                <button
-                    onClick={() => onEdit(product)}
-                    className="text-blue-600 hover:underline mr-3"
-                >
-                    Edit
-                </button>
-
-                <button
-                    onClick={handleDelete}
-                    className="text-red-600 hover:underline"
-                >
-                    Delete
-                </button>
-
-            </td> */}
 
             <td className="p-3">
 
@@ -127,13 +61,14 @@ const ProductRow = ({
                 </button>
 
                 <button
-                    onClick={() => onDelete(product.id)}
+                    onClick={() => onDelete(product)}
                     className="text-red-600 hover:text-red-800 font-medium"
                 >
                     Delete
                 </button>
 
             </td>
+
         </tr>
 
     );

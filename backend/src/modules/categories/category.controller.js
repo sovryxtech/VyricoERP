@@ -111,51 +111,73 @@ async function addCategory(req, res) {
 }
 
 // DELETE /categories/:id
+// DELETE /categories/:id
+
 async function deleteCategory(req, res) {
     try {
+
         const { id } = req.params;
 
         if (!id) {
             return res.status(400).json({
                 status: "error",
-                msg: "Category is Required"
+                msg: "Category ID is required."
             });
         }
 
-        const result = await pool.query(
+        // Check whether any products belong to this category
+
+        const productCheck = await pool.query(
             `
-            DELETE 
-            FROM categories
-            WHERE id=$1
-            RETURNING *
+            SELECT COUNT(*) AS total
+            FROM products
+            WHERE category_id = $1;
             `,
             [id]
         );
 
-        // if(result.rowCount)
-        // return res.json(result)
+        const totalProducts = Number(productCheck.rows[0].total);
+
+        if (totalProducts > 0) {
+            return res.status(400).json({
+                status: "error",
+                msg: `Cannot delete category. ${totalProducts} product(s) are assigned to this category.`
+            });
+        }
+
+        // Delete category
+
+        const result = await pool.query(
+            `
+            DELETE FROM categories
+            WHERE id = $1
+            RETURNING *;
+            `,
+            [id]
+        );
 
         if (result.rowCount === 0) {
             return res.status(404).json({
                 status: "error",
-                msg: "Category not found"
-            })
-        };
+                msg: "Category not found."
+            });
+        }
 
         return res.status(200).json({
             status: "success",
-            msg: "Category deleted successfully"
-        })
-
+            msg: "Category deleted successfully."
+        });
 
     } catch (error) {
-        console.error(error)
+
+        console.error(error);
+
         return res.status(500).json({
             status: "error",
             msg: "Internal Server Error."
-        })
-    }
+        });
 
+    }
 }
 
 // PATCH categories/:id
