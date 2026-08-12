@@ -12,6 +12,8 @@ import Suppliers from "../pages/Suppliers";
 import Customers from "../pages/Customers";
 import Purchases from "../pages/Purchases";
 import Sales from "../pages/Sales";
+import Inventory from "../pages/Inventory";
+import Reports from "../pages/Reports"
 
 const router = createBrowserRouter([
     {
@@ -54,6 +56,14 @@ const router = createBrowserRouter([
                 path: "sales",
                 element: <Sales />,
             },
+            {
+                path: "inventory",
+                element: <Inventory />
+            },
+            {
+                path: "reports",
+                element:<Reports/>
+            }
         ],
     },
 ]);
